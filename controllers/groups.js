@@ -1,3 +1,4 @@
+const User = require('../models/User')
 const Group = require('../models/Group')
 
 function index(req, res) {
@@ -34,12 +35,17 @@ function showGroup(req, res) {
 }
 
 function addMemberToGroup(req, res) {
-  console.log(req.body)
+  console.log(req.body.username)
+  User
+    .findOne({ username: req.body.username })
+    .then(user => {
+      if (!user) return res.status(404).json({ message: 'User not found' })
+    })
   Group
     .findById(req.params.id)
     .then(group => {
       console.log(group.members)
-      group.members.push(req.body)
+      group.members.push(req.body.username)
       console.log(group.members)
       return group.save()
     })
