@@ -20,4 +20,7 @@ router.route('/group/:id')
 router.route('/group/:id/addmember')
   .post(secureRoute, groups.addMemberToGroup)
 
+router.route('/group/:id/newmessage')
+  .post(secureRoute, groups.addMessageToGroup)
+
 module.exports = router

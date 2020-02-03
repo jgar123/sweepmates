@@ -4,7 +4,8 @@ const Group = require('../models/Group')
 function index(req, res) {
   Group
     .find()
-    .populate('username')
+    .populate('user')
+    .populate('messages.user')
     .then(groups => res.status(200).json(groups))
 }
 
@@ -31,6 +32,7 @@ function showGroup(req, res) {
   Group
     .findById(req.params.id)
     .populate('user')
+    .populate('messages.user')
     .then(group => res.status(200).json(group))
 }
 
@@ -53,6 +55,22 @@ function addMemberToGroup(req, res) {
     })
 }
 
+function addMessageToGroup(req, res) {
+  console.log(req.currentUser)
+  console.log(req.body)
+  req.body.user = req.currentUser
+  Group
+    .findById(req.params.id)
+    .populate('user')
+    .then(group => {
+      console.log(group.user)
+      console.log(group.messages)
+      if (group.members.includes(!req.currentUser.username) || req.currentUser.username === !group.user.username) return res.status(404).json({ message: 'Not authorised to access group' })
+      group.messages.push(req.body)
+      return group.save()
+    })
+    .then(() => res.status(202).json({ message: 'message sent' }))
+}
 
 
 // if user is authorized and their user ID exists in members array - they can message
@@ -62,5 +80,6 @@ module.exports = {
   remove,
   index,
   showGroup,
-  addMemberToGroup
+  addMemberToGroup,
+  addMessageToGroup
 }
