@@ -40,17 +40,20 @@ function addMemberToGroup(req, res) {
     .findOne({ username: req.body.username })
     .then(user => {
       if (!user) return res.status(404).json({ message: 'User not found' })
+      Group
+        .findById(req.params.id)
+        .then(group => {
+          if (group.members.includes(user.username)) return res.status(203).json({ message: 'User already in group' })
+          console.log(group.members)
+          group.members.push(req.body.username)
+          console.log(group.members)
+          return group.save()
+        })
+        .then(() => res.status(202).json({ message: 'user added' }))
     })
-  Group
-    .findById(req.params.id)
-    .then(group => {
-      console.log(group.members)
-      group.members.push(req.body.username)
-      console.log(group.members)
-      return group.save()
-    })
-    .then(() => res.status(202).json({ message: 'user added' }))
 }
+
+
 
 // if user is authorized and their user ID exists in members array - they can message
 
