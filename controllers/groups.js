@@ -63,15 +63,12 @@ function addMessageToGroup(req, res) {
     .findById(req.params.id)
     .populate('user')
     .then(group => {
-      console.log(group.user)
-      console.log(group.messages)
       if (group.members.includes(!req.currentUser.username) || req.currentUser.username === !group.user.username) return res.status(404).json({ message: 'Not authorised to access group' })
       group.messages.push(req.body)
       return group.save()
     })
     .then(() => res.status(202).json({ message: 'message sent' }))
 }
-
 
 // if user is authorized and their user ID exists in members array - they can message
 
