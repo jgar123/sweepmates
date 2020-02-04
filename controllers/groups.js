@@ -6,6 +6,7 @@ function index(req, res) {
     .find()
     .populate('user')
     .populate('messages.user')
+    .populate('bets.user')
     .then(groups => res.status(200).json(groups))
 }
 
@@ -33,6 +34,7 @@ function showGroup(req, res) {
     .findById(req.params.id)
     .populate('user')
     .populate('messages.user')
+    .populate('bets.user')
     .then(group => res.status(200).json(group))
 }
 
@@ -56,18 +58,31 @@ function addMemberToGroup(req, res) {
 }
 
 function addMessageToGroup(req, res) {
-  console.log(req.currentUser)
-  console.log(req.body)
   req.body.user = req.currentUser
   Group
     .findById(req.params.id)
     .populate('user')
     .then(group => {
-      if (group.members.includes(!req.currentUser.username) || req.currentUser.username === !group.user.username) return res.status(404).json({ message: 'Not authorised to access group' })
+      if (group.members.includes(!req.currentUser.username) || req.currentUser.username === !group.user.username) 
+        return res.status(404).json({ message: 'Not authorised to access group' })
       group.messages.push(req.body)
       return group.save()
     })
     .then(() => res.status(202).json({ message: 'message sent' }))
+}
+
+function addBetToGroup(req, res) {
+  req.body.user = req.currentUser
+  Group
+    .findById(req.params.id)
+    .populate('user')
+    .then(group => {
+      if (group.members.includes(!req.currentUser.username) || req.currentUser.username === !group.user.username) 
+        return res.status(404).json({ message: 'Not authorised to access group' })
+      group.bets.push(req.body)
+      return group.save()
+    })
+    .then(() => res.status(202).json({ message: 'bet placed' }))
 }
 
 // if user is authorized and their user ID exists in members array - they can message
@@ -78,5 +93,6 @@ module.exports = {
   index,
   showGroup,
   addMemberToGroup,
-  addMessageToGroup
+  addMessageToGroup,
+  addBetToGroup
 }
