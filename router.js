@@ -15,10 +15,12 @@ router.route('/groups')
 
 router.route('/group/:id')
   .get(secureRoute, groups.showGroup)
-  .delete(secureRoute, groups.remove)
+  .delete(secureRoute, groups.removeGroup)
 
 router.route('/group/:id/addmember')
   .post(secureRoute, groups.addMemberToGroup)
+
+// router.route('/group/:id/removemember')
 
 router.route('/group/:id/newmessage')
   .post(secureRoute, groups.addMessageToGroup)

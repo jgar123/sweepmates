@@ -29,7 +29,7 @@ function create(req, res, next) {
     .catch(next)
 }
 
-function remove(req, res) {
+function removeGroup(req, res) {
   Group
     .findById(req.params.id)
     .then(group => {
@@ -106,7 +106,7 @@ function addBetToGroup(req, res) {
 
 module.exports = {
   create,
-  remove,
+  removeGroup,
   index,
   showGroup,
   addMemberToGroup,
