@@ -9,6 +9,9 @@ router.route('/register')
 router.route('/login')
   .post(users.login)
 
+router.route('/user/:id')
+  .delete(users.removeUser)
+
 router.route('/groups')
   .get(groups.index)
   .post(secureRoute, groups.create)

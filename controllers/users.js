@@ -22,7 +22,17 @@ function login(req, res) {
     .catch(() =>  res.status(401).json({ message: 'Unauthorized' }))
 }
 
+function removeUser(req, res) {
+  User
+    .findById(req.currentUser.id)
+    .then(user => {
+      return user.remove()
+    })
+    .then(() => res.status(200).json({ message: 'User deleted' }))
+}
+
 module.exports = {
   register,
-  login
+  login,
+  removeUser
 }
