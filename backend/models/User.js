@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
   timestamps: true,
   toJSON: {
     transform(doc, json) {
-      return { username: json.username }
+      return { username: json.username, groups: json.groups }
     }
   }
 })

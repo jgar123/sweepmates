@@ -9,6 +9,9 @@ router.route('/register')
 router.route('/login')
   .post(users.login)
 
+router.route('/user')
+  .get(secureRoute, users.profile)
+
 router.route('/user/:id')
   .delete(users.removeUser)
 

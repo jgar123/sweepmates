@@ -22,6 +22,13 @@ function login(req, res) {
     .catch(() =>  res.status(401).json({ message: 'Unauthorized' }))
 }
 
+function profile(req, res) {
+  console.log(req.currentUser)
+  User
+    .findById(req.currentUser.id)
+    .then(user => res.status(200).json(user))
+}
+
 function removeUser(req, res) {
   User
     .findById(req.currentUser.id)
@@ -34,5 +41,6 @@ function removeUser(req, res) {
 module.exports = {
   register,
   login,
+  profile,
   removeUser
 }
