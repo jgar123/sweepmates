@@ -16,10 +16,20 @@ const Home = () => {
       })
   }, [])
 
+  function handleClick(e) {
+    axios.get(`/api/group/${e.target.id}`, {
+      headers: { Authorization: 'Bearer ' + Auth.getToken() }
+    })
+      .then(resp => {
+        console.log(resp.data)
+      })
+  }
+
   return <section className="section">
+    <p className="title">groups</p>
     {groups.map((group, i) => {
       return <div key={i}>
-        {group.name}
+        <div className="container" onClick={handleClick} id={group.id}>{group.name}</div>
       </div>
     })}
   </section>
