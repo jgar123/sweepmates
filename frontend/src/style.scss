@@ -2,3 +2,8 @@
   border-radius: 0;
   border-color: white;
 }
+
+#message-section {
+  max-height: 50vh;
+  overflow: scroll;
+}

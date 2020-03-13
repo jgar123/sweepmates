@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import Auth from '../lib/authMethods'
 
-const Home = () => {
+const Home = (props) => {
 
   const [groups, setGroups] = useState([])
 
@@ -17,12 +17,7 @@ const Home = () => {
   }, [])
 
   function handleClick(e) {
-    axios.get(`/api/group/${e.target.id}`, {
-      headers: { Authorization: 'Bearer ' + Auth.getToken() }
-    })
-      .then(resp => {
-        console.log(resp.data)
-      })
+    props.history.push(`/group/${e.target.id}`)
   }
 
   return <section className="section">
