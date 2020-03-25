@@ -5,9 +5,12 @@ function index(req, res) {
   Group
     .find()
     .populate('user')
-    .populate('messages.user')
+    // .populate('messages.user')
     .populate('bets.user')
-    .then(groups => res.status(200).json(groups))
+    .then(groups => {
+      console.log(groups)
+      res.status(200).json(groups)
+    })
 }
 
 function create(req, res, next) {
