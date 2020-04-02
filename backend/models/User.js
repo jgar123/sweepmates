@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-let mongooseHidden = require('mongoose-hidden')()
+// let mongooseHidden = require('mongoose-hidden')()
 const bcrypt = require('bcrypt')
 
 const userSchema = new mongoose.Schema({
@@ -7,16 +7,16 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true, hide: true  },
   groups: { type: [] }
 }, {
-  timestamps: true
-  // toJSON: {
-  //   transform(doc, json) {
-  //     return { username: json.username, groups: json.groups }
-  //   }
-  // }
+  timestamps: true,
+  toJSON: {
+    transform(doc, json) {
+      return { username: json.username, groups: json.groups }
+    }
+  }
 })
 
 userSchema.plugin(require('mongoose-unique-validator'))
-userSchema.plugin(mongooseHidden)
+// userSchema.plugin(mongooseHidden)
 
 
 userSchema
