@@ -5,7 +5,7 @@ const { secret } = require('../config/environment')
 function register(req, res, next) {
   User
     .create(req.body)
-    .then(() => res.status(200).json({ message: 'Welcome on board' }))
+    .then(user => res.status(200).json({ message: `Welcome on board ${user.username}` }))
     .catch(next)
 }
 
@@ -26,7 +26,10 @@ function profile(req, res) {
   console.log(req.currentUser)
   User
     .findById(req.currentUser.id)
-    .then(user => res.status(200).json(user))
+    .then(user => {
+      console.log(user)
+      res.status(200).json(user)
+    })
 }
 
 function removeUser(req, res) {

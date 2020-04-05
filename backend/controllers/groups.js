@@ -105,6 +105,7 @@ function addBetToGroup(req, res) {
     .then(() => res.status(202).json({ message: 'bet placed' }))
 }
 
+
 // if user is authorized and their user ID exists in members array - they can message
 
 module.exports = {
