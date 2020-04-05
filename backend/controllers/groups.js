@@ -111,11 +111,26 @@ function removeUsersFromGroup(req, res) {
     .findById(req.params.id)
     .then(group => {
       if (!group.user.equals(req.currentUser._id)) return res.status(401).json({ message: 'Not admin' })
-      return res.status(200).json({ message: 'We made it!' })
-    })
-}
 
-// if user is authorized and their user ID exists in members array - they can message
+      group.members = group.members.filter(member => {
+        return !usersToDelete.includes(member)
+      })
+      group.save()
+      return res.status(200).json(group)
+    })
+
+  usersToDelete.forEach(user => {
+    User
+      .findOne({ username: user })
+      .then(user2 => {
+        console.log(user2)
+        user2.groups = user2.groups.filter(group => {
+          return group.id !== req.params.id
+        })
+        return user2.save()
+      })
+  })
+}
 
 module.exports = {
   create,

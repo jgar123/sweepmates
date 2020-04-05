@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const { dbURI } = require('../config/environment')
 const User = require('../models/User')
-const Group = require('../models/Group')
 
 mongoose.connect(
   dbURI,
@@ -33,27 +32,6 @@ mongoose.connect(
         }
         ])
       })
-      .then(users => {
-        console.log(`${users.length} users created`)
-        return Group.create([
-          {
-            name: 'Test group',
-            user: users[0],
-            messages: [{
-              text: 'This is a message',
-              user: users[0]
-            }],
-            bets: [{
-              content: 'This is a bet',
-              wager: 45,
-              user: users[0]
-            }],
-            members: []
-          }
-        ]
-        )
-      })
-      .then(locations => console.log(`${locations.length} Locations created`))
       .catch(err => console.log(err))
       .finally(() => mongoose.connection.close())
   }
