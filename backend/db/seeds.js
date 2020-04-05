@@ -39,16 +39,16 @@ mongoose.connect(
           {
             name: 'Test group',
             user: users[0],
-            messages: {
+            messages: [{
               text: 'This is a message',
               user: users[0]
-            },
-            bets: {
+            }],
+            bets: [{
               content: 'This is a bet',
               wager: 45,
               user: users[0]
-            },
-            members: [users[0], users[1], users[2]]
+            }],
+            members: []
           }
         ]
         )

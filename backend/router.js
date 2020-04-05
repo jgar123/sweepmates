@@ -26,7 +26,8 @@ router.route('/group/:id')
 router.route('/group/:id/addmember')
   .post(secureRoute, groups.addMemberToGroup)
 
-// router.route('/group/:id/removemember')
+router.route('/group/:id/removemember')
+  .delete(secureRoute, groups.removeUsersFromGroup)
 
 router.route('/group/:id/newmessage')
   .post(secureRoute, groups.addMessageToGroup)

@@ -5,7 +5,7 @@ function index(req, res) {
   Group
     .find()
     .populate('user')
-    // .populate('messages.user')
+    .populate('messages.user')
     .populate('bets.user')
     .then(groups => {
       console.log(groups)
@@ -105,6 +105,15 @@ function addBetToGroup(req, res) {
     .then(() => res.status(202).json({ message: 'bet placed' }))
 }
 
+function removeUsersFromGroup(req, res) {
+  const usersToDelete = req.body.users
+  Group
+    .findById(req.params.id)
+    .then(group => {
+      if (!group.user.equals(req.currentUser._id)) return res.status(401).json({ message: 'Not admin' })
+      return res.status(200).json({ message: 'We made it!' })
+    })
+}
 
 // if user is authorized and their user ID exists in members array - they can message
 
@@ -115,5 +124,6 @@ module.exports = {
   showGroup,
   addMemberToGroup,
   addMessageToGroup,
-  addBetToGroup
+  addBetToGroup,
+  removeUsersFromGroup
 }
